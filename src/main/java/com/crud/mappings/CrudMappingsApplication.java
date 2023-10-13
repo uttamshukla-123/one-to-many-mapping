@@ -9,6 +9,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.List;
+
 @SpringBootApplication
 public class CrudMappingsApplication {
 
@@ -32,10 +34,41 @@ public class CrudMappingsApplication {
 
             // deleteInstructorDetailById(appDao);
 
-            createInstructorWithCourses(appDao);
+            //createInstructorWithCourses(appDao);
+
+           // findInstructorWithCourses(appDao);
+            
+            findCoursesForInstructor(appDao);
 
 
         };
+    }
+
+    private void findCoursesForInstructor(AppDao appDao) {
+        int theId = 2;
+        System.out.println("Finding Instructor Id" + theId);
+
+        Instructor tempInstructor = appDao.findInstructorById(theId);
+        System.out.println("tempInstructor " + tempInstructor);
+
+        //find course for instructor
+        System.out.println("Find Courses for Instructor "+theId);
+        List<Course> theCourseList=appDao.findCoursesByInstructorId(theId);
+
+        tempInstructor.setCourses(theCourseList);
+        System.out.println("assosiated courses for instructor id"+tempInstructor.getCourses());
+    }
+
+    private void findInstructorWithCourses(AppDao appDao) {
+
+        int theId = 2;
+        System.out.println("Finding Instructor Id" + theId);
+
+        Instructor tempInstructor = appDao.findInstructorById(theId);
+        System.out.println("tempInstructor " + tempInstructor);
+        System.out.println("assosiated coureses" + tempInstructor.getCourses());
+
+        System.out.println("Done !!");
     }
 
     private void createInstructorWithCourses(AppDao appDao) {
@@ -45,15 +78,15 @@ public class CrudMappingsApplication {
         instructor.setInstructorDetail(instructorDetail);
 
         //create some courses
-        Course tempCourse=new Course("Beginner for DSA");
-        Course tempCourse1=new Course("Beginner for Java");
+        Course tempCourse = new Course("Beginner for DSA");
+        Course tempCourse1 = new Course("Beginner for Java");
 
         instructor.add(tempCourse);
         instructor.add(tempCourse1);
 
         //save the instructor
-        System.out.println("Saving Instructor"+instructor);
-        System.out.println("Saving Courses "+instructor.getCourses());
+        System.out.println("Saving Instructor" + instructor);
+        System.out.println("Saving Courses " + instructor.getCourses());
         appDao.save(instructor);
 
 

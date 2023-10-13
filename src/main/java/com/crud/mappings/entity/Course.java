@@ -2,6 +2,9 @@ package com.crud.mappings.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "course")
 public class Course {
@@ -15,10 +18,15 @@ public class Course {
     @Column(name = "id")
     private int id;
     @Column(name = "title")
-    private  String course;
-    @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST})
+    private String course;
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinColumn(name = "instructor_id")
     private Instructor instructor;
+
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "course_id")
+    private List<Review> review;
 
 
     //create constructor
@@ -56,6 +64,23 @@ public class Course {
         this.instructor = instructor;
     }
 
+    public List<Review> getReviews() {
+        return review;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.review = reviews;
+    }
+
+    //add convience method for uni-directional mapping
+
+    public void add(Review tempReview) {
+        if (review == null) {
+            review = new ArrayList<>();
+        }
+        review.add(tempReview);
+
+    }
 
     // create toString() method
 
@@ -66,7 +91,6 @@ public class Course {
                 ", course='" + course + '\'' +
                 '}';
     }
-
 
 
 }

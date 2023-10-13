@@ -43,10 +43,10 @@ public class AppDaoImpl implements AppDao {
         Instructor instructor = entityManager.find(Instructor.class, id);
 
         //get the courses
-        List<Course> tempCourses=instructor.getCourses();
+        List<Course> tempCourses = instructor.getCourses();
 
         //break the assosiated with all the courses
-        for(Course course:tempCourses){
+        for (Course course : tempCourses) {
             course.setInstructor(null);
         }
 
@@ -109,7 +109,32 @@ public class AppDaoImpl implements AppDao {
     @Override
     @Transactional
     public void deleteCourseById(int id) {
-        Course course=entityManager.find(Course.class,id);
+        Course course = entityManager.find(Course.class, id);
         entityManager.remove(course);
+    }
+
+    @Override
+    @Transactional
+    public void save(Course course) {
+
+        entityManager.persist(course);
+
+    }
+
+    @Override
+    public Course findCourseAndReviewByCourseId(int courseId) {
+
+        // create query
+        TypedQuery<Course> query = entityManager.createQuery(
+                "select c from Course c "
+                        + "JOIN FETCH c.review "
+                        + "where c.id = :data", Course.class);
+
+        query.setParameter("data", courseId);
+
+        // execute query
+        Course course = query.getSingleResult();
+
+        return course;
     }
 }

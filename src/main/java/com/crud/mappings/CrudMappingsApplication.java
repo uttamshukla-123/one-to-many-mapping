@@ -4,6 +4,7 @@ import com.crud.mappings.doa.AppDao;
 import com.crud.mappings.entity.Course;
 import com.crud.mappings.entity.Instructor;
 import com.crud.mappings.entity.InstructorDetail;
+import com.crud.mappings.entity.Review;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -28,7 +29,7 @@ public class CrudMappingsApplication {
 
             // findInstructor(appDao);
 
-           // deleteInstructorById(appDao);
+            // deleteInstructorById(appDao);
 
             // findInstructorDetailById(appDao);
 
@@ -44,16 +45,62 @@ public class CrudMappingsApplication {
 
             // updateCourse(appDao);
 
-            deleteCourseById(appDao);
+            // deleteCourseById(appDao);
+
+            // createCourseAndReviews(appDao);
+
+            // retrieveCourseAndReviews(appDao);
+
+            deleteCourseAndReviews(appDao);
 
 
         };
     }
 
+    private void deleteCourseAndReviews(AppDao appDao) {
+
+        int courseId = 12;
+        System.out.println("Deleting Course id :" + courseId);
+        appDao.deleteCourseById(courseId);
+        System.out.println("Done !!");
+    }
+
+    private void retrieveCourseAndReviews(AppDao appDao) {
+
+        // get the course and reviews
+        int id = 12;
+        Course tempCourse = appDao.findCourseAndReviewByCourseId(id);
+
+        // print the course
+        System.out.println(tempCourse);
+
+        //print the reviews
+        System.out.println(tempCourse.getReviews());
+        System.out.println("Done !!");
+    }
+
+    private void createCourseAndReviews(AppDao appDao) {
+
+        //create a course
+        Course tempCourse = new Course("Java 11th Edition Course");
+
+        // add some reviews
+        tempCourse.add(new Review("Loved this course"));
+        tempCourse.add(new Review("Not too much content"));
+        tempCourse.add(new Review("good in-depth knowledge"));
+
+        //save the course and leverage reviews
+        System.out.println("Saving the Course");
+        System.out.println(tempCourse);
+        System.out.println(tempCourse.getReviews());
+
+        appDao.save(tempCourse);
+    }
+
     private void deleteCourseById(AppDao appDao) {
 
-        int courseId=10;
-        System.out.println("Deleting Course id :" +courseId);
+        int courseId = 10;
+        System.out.println("Deleting Course id :" + courseId);
         appDao.deleteCourseById(courseId);
         System.out.println("Done !!");
     }

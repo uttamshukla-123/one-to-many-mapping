@@ -28,20 +28,65 @@ public class CrudMappingsApplication {
 
             // findInstructor(appDao);
 
-            // deleteInstructorById(appDao);
+           // deleteInstructorById(appDao);
 
             // findInstructorDetailById(appDao);
 
             // deleteInstructorDetailById(appDao);
 
-            //createInstructorWithCourses(appDao);
+            // createInstructorWithCourses(appDao);
 
-           // findInstructorWithCourses(appDao);
-            
-            findCoursesForInstructor(appDao);
+            // findInstructorWithCourses(appDao);
+
+            // findCoursesForInstructor(appDao);
+
+            //  updateInstructor(appDao);
+
+            // updateCourse(appDao);
+
+            deleteCourseById(appDao);
 
 
         };
+    }
+
+    private void deleteCourseById(AppDao appDao) {
+
+        int courseId=10;
+        System.out.println("Deleting Course id :" +courseId);
+        appDao.deleteCourseById(courseId);
+        System.out.println("Done !!");
+    }
+
+    private void updateCourse(AppDao appDao) {
+
+
+        //find a Course
+        int theId = 10;
+        System.out.println("finding the  Course  id" + theId);
+        Course theCourse = appDao.findCourseById(theId);
+
+        //update the course
+        System.out.println("Updating the Instructor" + theCourse);
+        theCourse.setCourse("Beginner to Stock Market");
+        appDao.updateCourse(theCourse);
+
+        System.out.println("Done !!");
+    }
+
+    private void updateInstructor(AppDao appDao) {
+
+        //find a instructor
+        int theId = 2;
+        System.out.println("finding the  instructor id" + theId);
+        Instructor thInstructor = appDao.findInstructorById(theId);
+
+        //update the instructor
+        System.out.println("Updating the Instructor" + thInstructor);
+        thInstructor.setLastName("Shukla");
+        appDao.update(thInstructor);
+
+
     }
 
     private void findCoursesForInstructor(AppDao appDao) {
@@ -52,11 +97,11 @@ public class CrudMappingsApplication {
         System.out.println("tempInstructor " + tempInstructor);
 
         //find course for instructor
-        System.out.println("Find Courses for Instructor "+theId);
-        List<Course> theCourseList=appDao.findCoursesByInstructorId(theId);
+        System.out.println("Find Courses for Instructor " + theId);
+        List<Course> theCourseList = appDao.findCoursesByInstructorId(theId);
 
         tempInstructor.setCourses(theCourseList);
-        System.out.println("assosiated courses for instructor id"+tempInstructor.getCourses());
+        System.out.println("assosiated courses for instructor id" + tempInstructor.getCourses());
     }
 
     private void findInstructorWithCourses(AppDao appDao) {
@@ -118,7 +163,7 @@ public class CrudMappingsApplication {
 
     private void deleteInstructorById(AppDao appDao) {
 
-        int id = 1;
+        int id = 2;
 
         appDao.deleteInstructorById(id);
 
